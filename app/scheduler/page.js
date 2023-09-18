@@ -1,6 +1,6 @@
 import SchedulerComponent from "@/components/ui/Syncfusion/Scheduler";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next"
 
 async function loadSchedule() {
   try {

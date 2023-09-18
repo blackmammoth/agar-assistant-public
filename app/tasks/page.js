@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 import Link from "next/link";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next"
 import SectionWrapper from "@/components/SectionWrapper";
 
 const TaskCard = dynamic(() => import("@/components/ui/TaskCard/TaskCard"));

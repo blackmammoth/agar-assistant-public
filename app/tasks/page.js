@@ -112,14 +112,11 @@ export default async function page() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return <></>;
+    return <>Not Signed In</>;
   }
 
   const tasks = await JSON.parse(JSON.stringify(await loadTasks()));
   const categorizedTasks = categorizeTasksByDueDate(tasks);
-
-  console.log("Tasks: ");
-  console.log(tasks);
 
   return (
     <SectionWrapper className="custom-screen">

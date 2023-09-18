@@ -1,11 +1,9 @@
 import Stats from "@/models/Stats";
 import { connectToDB } from "@/utils/database";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
 
-
-// export const runtime = 'edge'; // 'nodejs' is the default
 
 export async function GET() {
   try {

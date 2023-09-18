@@ -23,6 +23,7 @@ const page = async () => {
   }
 
   const data = await JSON.parse(JSON.stringify(await loadSchedule()));
+  console.log(session);
 
   return (
     <>

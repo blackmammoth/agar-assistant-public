@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 import Link from "next/link";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth/next"
+import { getServerSession } from "next-auth";
 
 // Dynamic Imports
 const Line = dynamic(() => import('@/components/ui/Charts/Line'), { ssr: false });
@@ -28,7 +28,7 @@ export default async function page() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return <p>You Are Not Signed In, Problem</p>
+    return <p>You Are Not Signed In</p>
   }
 
   const stats = await JSON.parse(JSON.stringify(await loadStats()));

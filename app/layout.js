@@ -3,7 +3,6 @@ import Navbar from "@/components/ui/Navbar/Navbar";
 import Footer from "@/components/ui/Footer/Footer";
 import ThemeProviders from "./Providers";
 import Provider from "@/components/ui/Provider/SessionProvider";
-import { Analytics } from '@vercel/analytics/react';
 
 import { Source_Sans_3, Red_Hat_Display } from "next/font/google";
 
@@ -158,7 +157,6 @@ export default function RootLayout({ children }) {
             </main>
           </ThemeProviders>
         </Provider>
-        <Analytics />
       </body>
     </html>
   );

@@ -28,7 +28,7 @@ export default async function page() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return <></>
+    return <p>You Are Not Signed In, Problem</p>
   }
 
   const stats = await JSON.parse(JSON.stringify(await loadStats()));

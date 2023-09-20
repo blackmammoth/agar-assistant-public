@@ -1,9 +1,10 @@
 import dynamic from "next/dynamic";
 
 import Link from "next/link";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth/next"
+// import { getServerSession } from "next-auth/next"
 import SectionWrapper from "@/components/SectionWrapper";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 const TaskCard = dynamic(() => import("@/components/ui/TaskCard/TaskCard"));
 const Button = dynamic(() => import("@/components/ui/Button/Button"), {
@@ -109,7 +110,10 @@ async function loadTasks() {
 }
 
 export default async function page() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession();
+
+  console.log("Inside Task")
+  console.log(session)
 
   if (!session) {
     return <>Not Signed In</>;

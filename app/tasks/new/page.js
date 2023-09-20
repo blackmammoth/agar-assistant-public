@@ -25,7 +25,7 @@ const NewTask = () => {
 
   
   const getTask = async () => {
-    const res = await fetch(`/api/tasks/${params.id}`,{ next: { revalidate: 20 } });
+    const res = await fetch(`/api/tasks/${params.id}`);
     const data = await res.json();
 
 

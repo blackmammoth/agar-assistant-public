@@ -1,19 +1,16 @@
-"use client";
+import dynamic from "next/dynamic";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth/next"
 import SectionWrapper from "@/components/SectionWrapper";
-import { useState } from "react";
-import { useEffect } from "react";
 
-import TaskCard from "@/components/ui/TaskCard";
-import Button from "@/components/ui/Button";
-
+const TaskCard = dynamic(() => import("@/components/ui/TaskCard/TaskCard"));
+const Button = dynamic(() => import("@/components/ui/Button/Button"), {
+  ssr: false,
+});
 // Helper function to categorize tasks by their due dates
 function categorizeTasksByDueDate(tasks) {
-  console.log("Inside Categorize: ");
-  console.log(tasks);
-  console.log("Before Log");
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
@@ -84,39 +81,26 @@ function categorizeTasksByDueDate(tasks) {
     longDueTasks,
   };
 }
-
-
-export default function page() {
-  const [tasks, setTasks] = useState([]);
-  const [categorizedTasks, setCategorizedTasks] = useState(null); // Initialize as null
-  const { data: session } = useSession();
-
-  const fetchTasks = async () => {
-    const res = await fetch("/api/tasks");
-    const data = await res.json();
-
-    setTasks(data);
-  };
-
-  useEffect(() => {
-    if (session) {
-      fetchTasks();
-    }
-  }, [session?.user.id]);
-
-  useEffect(() => {
-    if (tasks.length > 0) {
-      // Categorize tasks after they have been fetched and set
-      const categorizedTasksResult = categorizeTasksByDueDate(tasks);
-      console.log(categorizedTasksResult);
-      setCategorizedTasks(categorizedTasksResult); // Store categorized tasks in state
-    }
-  }, [tasks]);
-
-  // const tasks = await JSON.parse(JSON.stringify(await loadTasks()));
-  // const categorizedTasks = categorizeTasksByDueDate(tasks);
-  // console.log("Tasks: ");
-  // console.log(tasks);
+async function loadTasks() {
+  try {
+    const res = await import("../api/tasks/route");
+    const data = await (await res.GET()).json();
+    return data;
+  } catch (error) {
+    // Handle the error and provide user-friendly feedback
+    console.error("Error loading TASKS:", error);
+    throw new Error("Failed to load tasks. Please try again later.");
+  }
+}
+export default async function page() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return <></>;
+  }
+  const tasks = await JSON.parse(JSON.stringify(await loadTasks()));
+  const categorizedTasks = categorizeTasksByDueDate(tasks);
+  console.log("Tasks: ");
+  console.log(tasks);
   return (
     <SectionWrapper className="custom-screen">
       <h1 className="text-2xl text-primary-dark dark:text-zinc-200 font-secondary font-bold sm:text-2xl">
@@ -129,7 +113,7 @@ export default function page() {
       </Link>
       <div className="block grid-cols-2 sm:grid">
         {/* New "Past Due Tasks" section */}
-        {categorizedTasks && categorizedTasks.pastDueTasks?.length > 0 && (
+        {categorizedTasks.pastDueTasks?.length > 0 && (
           <div className="mr-8">
             <h2 className="text-2xl text-primary-dark font-primary dark:text-slate-100 font-light sm:text-xl mt-5">
               Past Due Tasks
@@ -143,53 +127,49 @@ export default function page() {
           <h2 className="text-2xl text-primary-dark dark:text-slate-100 font-primary font-light sm:text-xl mt-5">
             Today
           </h2>
-          {categorizedTasks &&
-            (categorizedTasks.todayTasks.length === 0 ? (
-              <p>No tasks available for today.</p>
-            ) : (
-              categorizedTasks.todayTasks.map((task) => (
+          {categorizedTasks.todayTasks.length === 0 ? (
+            <p>No tasks available for today.</p>
+          ) : (
+            categorizedTasks.todayTasks.map((task) => (
                 <TaskCard task={task} key={task._id} />
-              ))
-            ))}
+            ))
+          )}
         </div>
         <div className="mr-8">
           <h2 className="text-2xl text-primary-dark font-primary dark:text-slate-100 font-light sm:text-xl mt-5">
             Tomorrow
           </h2>
-          {categorizedTasks &&
-            (categorizedTasks.tomorrowTasks.length === 0 ? (
-              <p>No tasks available for tomorrow.</p>
-            ) : (
-              categorizedTasks.tomorrowTasks.map((task) => (
-                <TaskCard task={task} key={task._id} />
-              ))
-            ))}
+          {categorizedTasks.tomorrowTasks.length === 0 ? (
+            <p>No tasks available for tomorrow.</p>
+          ) : (
+            categorizedTasks.tomorrowTasks.map((task) => (
+              <TaskCard task={task} key={task._id} />
+            ))
+          )}
         </div>
         {/* Display tasks due in the next 5 days */}
-        {categorizedTasks &&
-          categorizedTasks.futureTasks.map((category) => (
-            <div key={category.category}>
-              <h2 className="text-2xl text-primary-dark font-primary dark:text-slate-100 font-light sm:text-xl mt-5">
-                {category.category}
-              </h2>
-              {category.tasks.map((task) => (
-                <TaskCard task={task} key={task._id} />
-              ))}
-            </div>
-          ))}
+        {categorizedTasks.futureTasks.map((category) => (
+          <div key={category.category}>
+            <h2 className="text-2xl text-primary-dark font-primary dark:text-slate-100 font-light sm:text-xl mt-5">
+              {category.category}
+            </h2>
+            {category.tasks.map((task) => (
+              <TaskCard task={task} key={task._id} />
+            ))}
+          </div>
+        ))}
         {/* New "Long Due Tasks" section */}
         <div className="mr-8">
           <h2 className="text-2xl text-primary-dark font-primary dark:text-slate-100 font-light sm:text-xl mt-5">
             Long Due Tasks
           </h2>
-          {categorizedTasks &&
-            (categorizedTasks.longDueTasks.length === 0 ? (
-              <p>No long-due tasks available.</p>
-            ) : (
-              categorizedTasks.longDueTasks.map((task) => (
-                <TaskCard task={task} key={task._id} />
-              ))
-            ))}
+          {categorizedTasks.longDueTasks.length === 0 ? (
+            <p>No long-due tasks available.</p>
+          ) : (
+            categorizedTasks.longDueTasks.map((task) => (
+              <TaskCard task={task} key={task._id} />
+            ))
+          )}
         </div>
       </div>
     </SectionWrapper>

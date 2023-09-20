@@ -1,37 +1,32 @@
-import dynamic from "next/dynamic";
+"use client";
 
 import Link from "next/link";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-// Dynamic Imports
-const Line = dynamic(() => import('@/components/ui/Charts/Line'), { ssr: false });
-const Button = dynamic(() => import("@/components/ui/Button/Button"), { ssr: false });
-const Card = dynamic(() => import("@/components/ui/Card/Card"), { ssr: false })
+import Line from "@/components/ui/Charts/Line";
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
 
+export default function page() {
 
-async function loadStats() {
-  try {
-    const res = await import("../api/stats/route");
-    const data = await (await res.GET()).json();
-    return data;
-  } catch (error) {
-    // Handle the error here, you can log it or perform other actions
-    console.error("Error loading stats:", error);
-    throw error; // Re-throw the error to propagate it to the caller if needed
-  }
-}
+  const { data: session } = useSession();
+  const [stats, setStats] = useState([]);
 
+  const fetchStats = async () => {
+    const res = await fetch("/api/stats");
+    const data = await res.json();
 
-export default async function page() {
+    setStats(data);
+  };
 
-  const session = await getServerSession(authOptions);
+  useEffect(() => {
+    if (session) {
+      fetchStats();
+    }
+  }, [session?.user.id]);
 
-  if (!session) {
-    return <p>You Are Not Signed In</p>
-  }
-
-  const stats = await JSON.parse(JSON.stringify(await loadStats()));
   
   const selectedValueObject = {
     selected: "Amharic",

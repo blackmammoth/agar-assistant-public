@@ -1,29 +1,29 @@
+"use client";
+
+import dynamic from "next/dynamic";
+
 import SchedulerComponent from "@/components/ui/Syncfusion/Scheduler";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth/next"
+import { useState } from "react";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-async function loadSchedule() {
-  try {
-    const res = await import("../api/scheduler/route");
-    const data = await (await res.GET()).json();
-    return data;
-  } catch (error) {
-    // Handle the error here, you can log it or perform other actions
-    console.error("Error loading SCHEDULE:", error);
-    throw error; // Re-throw the error to propagate it to the caller if needed
-  }
-}
-
-const page = async () => {
+const page = () => {
   
-  const session = await getServerSession(authOptions);
+  const { data: session } = useSession();
+  const [data, setData] = useState([]);
 
-  if (!session) {
-    return <></>
-  }
+  const fetchScheduleData = async () => {
+    const res = await fetch("/api/scheduler");
+    const data = await res.json();
 
-  const data = await JSON.parse(JSON.stringify(await loadSchedule()));
-  console.log(session);
+    setData(data);
+  };
+
+  useEffect(() => {
+    if (session) {
+      fetchScheduleData();
+    }
+  }, [session?.user.id]);
 
   return (
     <>

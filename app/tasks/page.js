@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
 import Link from "next/link";
 // import { getServerSession } from "next-auth/next"
@@ -6,10 +6,8 @@ import SectionWrapper from "@/components/SectionWrapper";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 
-const TaskCard = dynamic(() => import("@/components/ui/TaskCard/TaskCard"));
-const Button = dynamic(() => import("@/components/ui/Button/Button"), {
-  ssr: false,
-});
+import TaskCard from "@/components/ui/TaskCard";
+import Button from "@/components/ui/Button";
 
 // Helper function to categorize tasks by their due dates
 function categorizeTasksByDueDate(tasks) {

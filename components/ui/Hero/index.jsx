@@ -6,7 +6,6 @@ const Hero = () => {
 
     return (
         <GradientWrapper>
-            <section>
                 <div className="custom-screen items-center gap-12 text-gray-600 flex flex-col sm:justify-center sm:text-center xl:flex-row xl:text-left">
                     <div className='flex-none space-y-5 max-w-4xl xl:max-w-2xl'>
                         <h1 className="text-4xl text-white font-extrabold sm:text-6xl">
@@ -31,7 +30,6 @@ const Hero = () => {
                         </div>
                     </div>
                 </div>
-            </section>
         </GradientWrapper>
     )
 }

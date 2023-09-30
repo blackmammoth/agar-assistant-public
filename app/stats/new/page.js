@@ -1,18 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 //SearchSelect
-import { SearchSelect, SearchSelectItem } from "@tremor/react";
+import { SearchSelect, SearchSelectItem, TextInput } from "@tremor/react";
 import { useSession } from "next-auth/react";
 
 
 /// BUGS
 // 1. handleSubmit needs to be clicked twoce
-
-
-
 
 export default () => {
   const { data: session } = useSession();
@@ -26,30 +23,86 @@ export default () => {
     userId: session?.user?.id,
   });
 
-  const typeOptions = ["Exam", "Assignment"];
-  const subjectOptions = ["Amharic", "English", "Physics", "Chemistry", "Math"];
+  const [user, setUser] = useState({
+      _id: session?.user?.id,
+      email: session?.user?.email,
+      subjects: []
+  })
+
+
+  const typeOptions = ["Exam", "Assignment", "Quiz"];
+  const [subjectOptions, setSubjectOptions] = useState(session?.user?.subjects || []); 
+
+  useEffect(() => {
+    if (session?.user?.subjects) {
+      setSubjectOptions(session.user.subjects);
+    }
+  }, [session]);
 
   const [typeValue, setTypeValue] = useState("");
   const [subjectValue, setSubjectValue] = useState("");
+  const [showTextInput, setShowTextInput] = useState(false); // Track whether to show TextInput
+  const [newSubject, setNewSubject] = useState("");
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (subjectValue === subjectOptions.length) {
+      setShowTextInput(true);
+    } else {
+      setShowTextInput(false);
+    }
+  }, [subjectValue]);
+
+  const postNewSubject = async () => {
+    const updatedUser = { ...user, subjects: [...subjectOptions, newSubject] };
+    setUser(updatedUser); 
+
+    try {
+      await fetch("/api/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formattedSubject = newSubject
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase()); // Format to Capitalized
+
+
     setNewStat({
       ...newStat,
       type: typeOptions[typeValue - 1],
-      subject: subjectOptions[subjectValue - 1],
+      subject:
+        subjectOptions[subjectValue - 1] === "Other"
+          ? formattedSubject
+          : subjectOptions[subjectValue - 1],
     });
 
     let errs = validate();
-    console.log(newStat);
+
     if (Object.keys(errs).length) return setErrors(errs);
     setIsSubmitting(true);
 
     await createStat();
+
+    if (subjectOptions[subjectValue - 1] === "Other") {
+      await postNewSubject();
+    }
 
     router.push("/stats");
   };
@@ -149,6 +202,18 @@ export default () => {
                 </SearchSelect>
               </div>
 
+              {showTextInput && (
+                <div className="max-w-sm mx-auto space-y-6 mt-5 mb-5">
+                  <TextInput
+                    name="newSubject"
+                    placeholder="Enter New Subject"
+                    // value={subjectOptions[subjectValue - 1]}
+                    value={newSubject}
+                    onChange={(e) => {setNewSubject(e.target.value)}}
+                  />
+                </div>
+              )}
+
               <label className="text-[15px] text-white">Result</label>
               <div className="relative">
                 <div className="flex flex-row">
@@ -159,7 +224,7 @@ export default () => {
                     onChange={handleChange}
                     className="w-full pl-12 pr-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
-                  <p>/</p>
+                  <p className="mr-2 font-extrabold ml-2">/</p>
                   <input
                     type="number"
                     name="outOf"

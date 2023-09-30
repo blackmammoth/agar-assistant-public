@@ -9,7 +9,7 @@ const Dropdown = memo(({ value, onValueChange, data }) => {
 
   return (
     <div className="max-w-sm mx-auto space-y-6">
-      <SearchSelect value={value} onValueChange={handleValueChange}>
+      <SearchSelect value={value} onValueChange={handleValueChange} placeholder="Search Subject">
         {data.map((label, index) => (
           <SearchSelectItem key={index} value={index + 1}>
             {label}

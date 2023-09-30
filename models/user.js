@@ -9,6 +9,23 @@ const userSchema = new Schema({
         unique: [true, "Email already exists"],
         validate: [validator.isEmail, 'Please enter a valid email']
     },
+    subjects: {
+        type: Array,
+        default: [
+            "Amharic",
+            "Biology",
+            "Chemistry",
+            "Economics",
+            "English",
+            "Geography",
+            "History",
+            "Math",
+            "Music",
+            "Physical Education",
+            "Physics",
+            "Other",
+          ]
+    },
     createdAt: {
         type: Date,
         default: Date.now

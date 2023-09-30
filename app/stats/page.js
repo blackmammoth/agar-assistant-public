@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
+
 import Line from "@/components/ui/Charts/Line";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
@@ -25,14 +26,20 @@ export default function page() {
     if (session) {
       fetchStats();
     }
-  }, [session?.user.id]);
+  }, [session?.user?.id]);
 
   
   const selectedValueObject = {
     selected: "Amharic",
   };
 
-  const subjectOptions = ["Amharic", "English", "Physics", "Chemistry", "Math"];
+  const [subjectOptions, setSubjectOptions] = useState(session?.user?.subjects || []); 
+
+  useEffect(() => {
+    if (session?.user?.subjects) {
+      setSubjectOptions(session.user.subjects);
+    }
+  }, [session]);
 
   return (
     // Wrap the page in similar fashin to SectionWrapper
@@ -51,7 +58,7 @@ export default function page() {
       <div className="flex place-content-end mr-5 mt-5">
         <Link href={"/stats/new"} prefetch>
           <Button className="block w-auto text-white font-primary bg-primary dark:bg-sky-500 hover:bg-primary-light dark:hover:bg-sky-600 ring-offset-2 ring-blue-600 dark:ring-sky-500 focus:ring shadow rounded-lg">
-            Add
+            Add Scores
           </Button>
         </Link>
       </div>

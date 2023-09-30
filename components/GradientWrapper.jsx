@@ -1,7 +1,7 @@
 const GradientWrapper = ({ children, ...props }) => (
     <div
         {...props}
-        className={`bg-gray-900 relative py-28 sm:py-32 ${props.className || ""}`}>
+        className={`bg-gray-900 py-28 sm:py-32 ${props.className || ""}`}>
         <div className="blur-[138px] absolute inset-0 m-auto max-w-7xl h-[230px]"
             style={{
                 background:

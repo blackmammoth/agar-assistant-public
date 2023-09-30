@@ -1,7 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
 import SchedulerComponent from "@/components/ui/Syncfusion/Scheduler";
 import { useState } from "react";
 import { useEffect } from "react";

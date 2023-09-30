@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Brand from "../Brand";
 import NavLink from "../NavLink";
 import { signOut, useSession } from "next-auth/react";
+import { Select, SelectItem } from "@tremor/react";
 
 // Lazy Imports
 
@@ -47,7 +48,7 @@ const Navbar = () => {
     { id: 2, name: "Stats", href: "/stats" },
     { id: 3, name: "Tasks", href: "/tasks" },
     { id: 4, name: "Scheduler", href: "/scheduler" },
-    { id: 5, name: "Contact", href: "/contact-us"},
+    { id: 5, name: "Contact", href: "/contact-us" },
   ];
 
   useEffect(() => {
@@ -74,6 +75,21 @@ const Navbar = () => {
       )}`}
     />
   );
+
+  const LanguageDropdown = () => {
+    return (
+      <Select placeholder="Select Language">
+        <div className="h-32 ">
+        <SelectItem value="1">Amharic</SelectItem>
+        <SelectItem value="2">English</SelectItem>
+        <SelectItem value="3">Afaan Oromo</SelectItem>
+        <SelectItem value="4">Tigrigna</SelectItem>
+        </div>
+      </Select>
+    );
+  }
+  
+
   return (
     <header>
       <nav
@@ -83,10 +99,13 @@ const Navbar = () => {
       >
         <div className="custom-screen relative items-center mx-auto md:flex">
           <div className="flex items-center justify-between py-3 md:py-10 md:block">
-            <Link href={isAuthenticated ? "/tasks" : "/"}  aria-label="Logo">
+            <Link href={isAuthenticated ? "/tasks" : "/"} aria-label="Logo">
               <Brand className={`text-white ${brandColor}`} />
             </Link>
             <div className="flex gap-x-3 items-center md:hidden">
+            <div className="mx-auto space-y-6">
+        <LanguageDropdown />
+                </div>
               <DarkModeBtn />
               <button
                 ref={menuBtnEl}
@@ -136,7 +155,7 @@ const Navbar = () => {
           >
             <ul className="justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0 md:font-medium">
               {navigation.map((item) => {
-                if ((!isAuthenticated && item.name !== "Contact")) {
+                if (!isAuthenticated && item.name !== "Contact") {
                   return null;
                 }
                 return (
@@ -151,12 +170,9 @@ const Navbar = () => {
                 );
               })}
               <li>
-                <span
-                  className={`${addColor(
-                    "bg-gray-300",
-                    "bg-gray-800"
-                  )} dark:bg-gray-700 hidden w-px h-5 md:block`}
-                ></span>
+                <div className="mx-auto space-y-6 hidden md:block">
+<LanguageDropdown />
+                </div>
               </li>
               <li className="hidden md:block">
                 <DarkModeBtn />

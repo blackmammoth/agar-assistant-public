@@ -17,6 +17,8 @@
 @import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-react-schedule/styles/material.css";
 
+@import "../node_modules/react-loading-skeleton/dist/skeleton.css";
+
 
 .custom-screen {
     @apply max-w-screen-xl mx-auto px-4 md:px-8;

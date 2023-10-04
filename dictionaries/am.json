@@ -1,0 +1,141 @@
+{
+  "navbar": {
+    "menuButtonAriaLabel": "ማውጫ ክፍል",
+    "languageDropdownPlaceholder": "ቋንቋ ይምረጡ",
+    "signOut": "ዘግተህ ውጣ",
+    "signUp": "ተመዝገብ/ግባ",
+    "stats": "የትምህርት ውጤት",
+    "tasks": "ቀሪ ስራዎች",
+    "scheduler": "መርሐግብር",
+    "contactUs": "ያግኙን"
+  },
+
+  "footer": {
+    "stats": "የትምህርት ውጤት",
+    "tasks": "ቀሪ ስራዎች",
+    "scheduler": "መርሐግብር",
+    "contactUs": "ያግኙን",
+    "privacyPolicy": "የፕራይቬሲ ፖሊሲ",
+    "copyright": "© 2023 Agar Assistant. All rights reserved."
+  },
+  "hero": {
+    "title": "አጋር አጋዥ",
+    "subtitle": "የትምህርት ጉዞዎን ከአጋር ጋር ይቅጥሉ",
+    "getStartedButton": "ለመመዝገብ ይንኩት"
+  },
+  "features": {
+    "sectionTitle": "አጋርን በመቀላቀል የሚከተሉትን ጥቅሞች ያግኙ",
+    "sectionDescription": "ይሄ መተግበሪያ ተማሪዎች ውጤታቸውን እንዲከታተሉና ስራቸውን በተገቢው ሰዐት እንዲሰሩ ያግዛል።",
+
+    "items": [
+      {
+        "title": "የውጤት መከታተያ",
+        "desc": "ያልዎትን የፈተና ውጤቶችዎን ያለ ምንም ችግር ይከታተሉ። መሻሻል ያለባቸውን ቦታዎችንም በመለየት የትምህርት ውጤትዎን ያሻሽሉ።"
+      },
+      {
+        "title": "የቀሪ ስራዎች ማስታወሻ",
+        "desc": "የተግባር ዝርዝሮችን ይፍጠሩ፣ ለስራዎም ቅድሚያ ይስጡ። ስራዎትን፣ ፕሮጀክቶችን እና የጥናት ክፍለ ጊዜዎትን በብቃት ጊዜ ይስጡ።"
+      },
+      {
+        "title": "የቀን መቁጠሪያ",
+        "desc": "የትምህርት መርሃ ግብርዎን ከመተግበሪያችን የቀን መቁጠሪያ ጋር ያዘምኑ። እንደ የፈተና ቀናት፣ የፕሮጀክት ቀነ-ገደቦች እና የክፍል መርሃ ግብሮች ያሉ አስፈላጊ ቀኖችን ይመዝግቡ።"
+      }
+    ]
+  },
+
+  "tasksPage": {
+    "title": "ስራዎች",
+    "addTaskButton": "አዲስ ስራ",
+    "pastDueTasks": "የበፊት ስራዎች",
+    "today": "የዛሬ ስራዎች",
+    "noTasksToday": "ለዛሬ ምንም ስራዎች የሉም።",
+    "tomorrow": "የነገ ስራዎች",
+    "noTasksTomorrow": "ለነገ ምንም ስራዎች የሉም።",
+    "longDueTasks": "ወደፊት ያሉ ስራዎች",
+    "noLongDueTasks": "ለወደፊቱ ምንም ስራዎች የሉም።",
+    "categoryPrefix": "በ",
+    "categorySuffix": "ቀን ውስጥ"
+  },
+
+  "newTaskPage": {
+    "createTaskTitle": "ስራውን ያስገቡ",
+    "updateTaskTitle": "ስራውን ቀይሩ",
+    "deleteButton": "ስራውን ይሰርዙ",
+    "taskNamePlaceholder": "ሥራው ምንድን ነው?",
+    "taskCompletedLabel": "ሥራው ተጠናቋል",
+    "dueDatePlaceholder": "የሥራው ማለቂያ ቀን ያስገቡ",
+    "saveButton": "ስራውን ያስገቡ",
+    "updatingButton": "በመቀየር ላይ...",
+    "savingButton": "በማስገባት ላይ..."
+  },
+  "statsPage": {
+    "pageTitle": "የእርስዎ ዉጤት",
+    "chartTitle": "የፈተና ውጤቶች",
+    "assignmentTitle": "የአሳይመንት ውጤቶች",
+    "addButton": "አዲስ ውጤት ያስገቡ"
+  },
+  "addStatsPage": {
+    "pageTitle": "ዉጤት ያስገቡ",
+    "selectTypeLabel": "ዓይነት ይምረጡ",
+    "selectSubjectLabel": "የትምህርት ዐይነት ይምረጡ",
+    "enterNewSubjectLabel": "አዲስ የትምህርት ዐይነት ያስገቡ",
+    "resultLabel": "ውጤት",
+    "addButton": "ዉጤቱን ያስገቡ",
+    "submitButton": "ዉጤቱን በማስገባት ላይ..."
+  },
+  "lineComponent": {
+    "dropdownLabel": "የትምህርት ዐይነት ይምረጡ",
+    "title": "የእርስዎ ዉጤት",
+    "monthNames": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "dayNames": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
+  },
+  "card": {
+    "selectSubjects": "የትምህርት ዐይቶችን ይምረጡ",
+    "noStatsAvailable": "ምንም ዉጤት የለም",
+    "subject": "የትምህርት ዐይነት",
+    "result": "ውጤት",
+    "date": "ቀን",
+    "prev": "&larr; የበፊቱን",
+    "next": "ቀጣዩን &rarr;",
+    "showing": "በማሳየት ላይ",
+    "of": "of"
+  },
+  "schedulePage": {
+    "schedulePageTitle": "የእርስዎ መርሐግብር"
+  },
+  "contactUsPage": {
+    "location": "አዲስ አበባ፣ ኢትዮጵያ",
+    "pageTitle": "የማግኛ ገጽ",
+    "mainHeading": "ሀሳባችሁን አጋሩን!",
+    "paragraph": "ለማገዝ እና ሊኖርዎት የሚችለውን ማንኛውንም ጥያቄ ለመመለስ ዝግጁ ነን!",
+    "contributionHeading": "ለፕሮጀክቱ አስተዋፅኦ ማድረግ ከፈለጉ ❤️",
+    "checkGitHubRepository": "Checkout the GitHub Repository",
+    "translationOpportunity": "ድህረ ገጹን ወደ ሌሎች የኢትዮጵያ ቋንቋዎች መተርጎም የሚችሉ ሰዎችንም እንፈልጋለን።",
+    "contactInfo": "መርዳት ከቻሉ፣ በኢሜል ወይም በስልክ ቁጥር ያግኙን።"
+  },
+  "redirectPage": {
+    "title": "በመጀምሪያ ተመዝገቡ",
+    "signIn": "ተመዝገብ/ግባ"
+  }
+}

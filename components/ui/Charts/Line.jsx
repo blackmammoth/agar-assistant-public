@@ -8,7 +8,7 @@ import { useMemo } from "react";
 const dataFormatter = (number) =>
   `${Intl.NumberFormat("us").format(number).toString()}%`;
 
-const Line = ({ stats, data }) => {
+const Line = ({ stats, data, dictionary }) => {
   const [selectedSubject, setSelectedSubject] = useState("Amharic");
 
   const handleSubjectChange = (newSubject) => {
@@ -21,6 +21,7 @@ const Line = ({ stats, data }) => {
       .map((item) => {
         const date = new Date(item.createdAt);
         const isValidDate = !isNaN(date);
+        
 
         // Define an array of month names
         const monthNames = [
@@ -57,10 +58,11 @@ const Line = ({ stats, data }) => {
         value={data.indexOf(selectedSubject) + 1}
         onValueChange={handleSubjectChange}
         data={data}
+        placeholder={dictionary?.dropdownLabel}
       />
       <div>
         <Card className="mt-16">
-          <Title>Your Scores</Title>
+          <Title>{dictionary?.title}</Title>
           <LineChart
             className="mt-6 w-auto flex mr-auto"
             data={chartData}

@@ -1,14 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Brand from "../Brand";
-import NavLink from "../NavLink";
 import { signOut, useSession } from "next-auth/react";
-import { Select, SelectItem } from "@tremor/react";
+import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
+import { signIn } from "next-auth/react";
+
 
 // Lazy Imports
 
@@ -16,14 +15,11 @@ const DynamicDarkModeHandler = dynamic(() =>
   import("../DarkModeHandler/DarkModeHandler")
 );
 
-const Navbar = () => {
+const Navbar = ({ lang, dictionary }) => {
   const menuBtnEl = useRef();
   const [state, setState] = useState(false);
-  const { pathname } = useRouter();
 
-  // array of all the paths that doesn't need dark navbar
-  const pathnames = ["/tutorials/[lesson]/[slug]"];
-  const isLightNeeded = pathnames.includes(pathname);
+  const isLightNeeded = false;
   // Method to add custom color based on the path
   const addColor = (lightColor, darkColor) =>
     isLightNeeded ? lightColor : darkColor;
@@ -45,10 +41,10 @@ const Navbar = () => {
 
   const navigation = [
     // { id: 1, name: "Dashboard", href: "/dashboard" },
-    { id: 2, name: "Stats", href: "/stats" },
-    { id: 3, name: "Tasks", href: "/tasks" },
-    { id: 4, name: "Scheduler", href: "/scheduler" },
-    { id: 5, name: "Contact", href: "/contact-us" },
+    { id: 2, name: dictionary?.stats, href: `/${lang}/stats` },
+    { id: 3, name: dictionary?.tasks, href: `/${lang}/tasks` },
+    { id: 4, name: dictionary?.scheduler, href: `/${lang}/scheduler` },
+    { id: 5, name: dictionary?.contactUs, href: `/${lang}/contact-us` },
   ];
 
   useEffect(() => {
@@ -76,20 +72,6 @@ const Navbar = () => {
     />
   );
 
-  const LanguageDropdown = () => {
-    return (
-      <Select placeholder="Select Language">
-        <div className="h-32 ">
-        <SelectItem value="1">Amharic</SelectItem>
-        <SelectItem value="2">English</SelectItem>
-        <SelectItem value="3">Afaan Oromo</SelectItem>
-        <SelectItem value="4">Tigrigna</SelectItem>
-        </div>
-      </Select>
-    );
-  }
-  
-
   return (
     <header>
       <nav
@@ -99,18 +81,18 @@ const Navbar = () => {
       >
         <div className="custom-screen relative items-center mx-auto md:flex">
           <div className="flex items-center justify-between py-3 md:py-10 md:block">
-            <Link href={isAuthenticated ? "/tasks" : "/"} aria-label="Logo">
+            <Link href={isAuthenticated ? `/${lang}/tasks` : `/${lang}`} aria-label="Logo">
               <Brand className={`text-white ${brandColor}`} />
             </Link>
             <div className="flex gap-x-3 items-center md:hidden">
-            <div className="mx-auto space-y-6">
-        <LanguageDropdown />
-                </div>
+              <div className="mx-auto space-y-6">
+                <LocaleSwitcher />
+              </div>
               <DarkModeBtn />
               <button
                 ref={menuBtnEl}
                 role="button"
-                aria-label="Open the menu"
+                aria-label={dictionary?.menuButtonAriaLabel}
                 className={`p-2 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${navMenuBtnColor}`}
                 onClick={() => {
                   setState((prev) => !prev);
@@ -155,7 +137,7 @@ const Navbar = () => {
           >
             <ul className="justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0 md:font-medium">
               {navigation.map((item) => {
-                if (!isAuthenticated && item.name !== "Contact") {
+                if (!isAuthenticated && item.name !== (dictionary?.contactUs)) {
                   return null;
                 }
                 return (
@@ -171,7 +153,7 @@ const Navbar = () => {
               })}
               <li>
                 <div className="mx-auto space-y-6 hidden md:block">
-<LanguageDropdown />
+                  <LocaleSwitcher />
                 </div>
               </li>
               <li className="hidden md:block">
@@ -180,10 +162,10 @@ const Navbar = () => {
               <li>
                 {isAuthenticated ? (
                   <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="flex items-center justify-center gap-x-1 font-medium text-sm text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full"
+                    onClick={() => signOut({ callbackUrl: `/${lang}` })}
+                    className="py-2.5 px-4 text-center duration-150 flex items-center justify-center gap-x-1 font-medium text-sm text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full"
                   >
-                    Sign Out
+                    {dictionary?.signOut}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -198,11 +180,11 @@ const Navbar = () => {
                     </svg>
                   </button>
                 ) : (
-                  <NavLink
-                    href="/signup"
-                    className="flex items-center justify-center gap-x-1 font-medium text-sm text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full"
+                  <button
+                    onClick={() => signIn("google", { callbackUrl: `/${lang}/tasks`})}
+                    className="py-2.5 px-4 text-center duration-150 flex items-center justify-center gap-x-1 font-medium text-sm text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full"
                   >
-                    Sign Up
+                    {dictionary?.signUp}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -215,7 +197,7 @@ const Navbar = () => {
                         clipRule="evenodd"
                       />
                     </svg>
-                  </NavLink>
+                  </button>
                 )}
               </li>
             </ul>

@@ -2,16 +2,20 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-const navigation = [
-  // { id: 1, name: "Dashboard", href: "/dashboard" },
-  { id: 2, name: "Stats", href: "/stats" },
-  { id: 3, name: "Tasks", href: "/tasks" },
-  { id: 4, name: "Scheduler", href: "/scheduler" },
-  { id: 5, name: "Contact", href: "/contact-us" },
-  { id: 6, name: "Privacy Policy", href: "/other/privacy-policy" },
-];
 
-const Footer = () => {
+
+
+const Footer = ({ lang, dictionary }) => {
+
+  const navigation = [
+    // { id: 1, name: "Dashboard", href: "/dashboard" },
+    { id: 2, name: dictionary?.stats, href: `/${lang}/stats` },
+    { id: 3, name: dictionary?.tasks, href: `/${lang}/tasks` },
+    { id: 4, name: dictionary?.scheduler, href: `/${lang}/scheduler` },
+    { id: 5, name: dictionary?.contactUs, href: `/${lang}/contact-us` },
+    { id: 6, name: dictionary?.privacyPolicy, href: `/${lang}/other/privacy-policy` }
+  ];
+
   //   For acessing user session
   const { status } = useSession();
 
@@ -21,7 +25,7 @@ const Footer = () => {
         <div className="mt-10 py-10 border-t dark:border-gray-800 flex-row-reverse items-center justify-between sm:flex">
           <ul className="flex flex-wrap items-center gap-4 sm:text-sm">
             {navigation.map((item) => {
-              if (status !== "authenticated" && item.name !== "Contact") {
+              if (status !== "authenticated" && item.name !== dictionary?.contactUs) {
                 return null;
               }
 
@@ -42,7 +46,7 @@ const Footer = () => {
             </li>
           </ul>
           <p className="mt-6 sm:mt-0">
-            © 2023 Agar Assistant. All rights reserved.
+            {dictionary?.copyright}
           </p>
         </div>
       </div>

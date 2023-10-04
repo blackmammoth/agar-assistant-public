@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 //SearchSelect
-import { SearchSelect, SearchSelectItem, TextInput } from "@tremor/react";
+import { SearchSelect, SearchSelectItem } from "@tremor/react";
 import { useSession } from "next-auth/react";
-
+import { getDictionary } from "@/get-dictionary";
+import Spinner from "@/components/ui/Spinner/Spinner";
 
 /// BUGS
 // 1. handleSubmit needs to be clicked twoce
 
-export default () => {
+import SignInRedirect from "@/components/ui/SignInRedirect/SignInRedirect";
+
+export default ({ params: { lang } }) => {
   const { data: session } = useSession();
+  const { status } = useSession();
 
   const [newStat, setNewStat] = useState({
     type: "",
@@ -23,88 +27,44 @@ export default () => {
     userId: session?.user?.id,
   });
 
-  const [user, setUser] = useState({
-      _id: session?.user?.id,
-      email: session?.user?.email,
-      subjects: []
-  })
-
-
-  const typeOptions = ["Exam", "Assignment", "Quiz"];
-  const [subjectOptions, setSubjectOptions] = useState(session?.user?.subjects || []); 
-
-  useEffect(() => {
-    if (session?.user?.subjects) {
-      setSubjectOptions(session.user.subjects);
-    }
-  }, [session]);
+  const typeOptions = ["Exam", "Assignment"];
+  const subjectOptions = ["Amharic", "English", "Physics", "Chemistry", "Math"];
+  const [dictionary, setDictionary] = useState(null);
 
   const [typeValue, setTypeValue] = useState("");
   const [subjectValue, setSubjectValue] = useState("");
-  const [showTextInput, setShowTextInput] = useState(false); // Track whether to show TextInput
-  const [newSubject, setNewSubject] = useState("");
-
   const router = useRouter();
-
-  useEffect(() => {
-    if (subjectValue === subjectOptions.length) {
-      setShowTextInput(true);
-    } else {
-      setShowTextInput(false);
-    }
-  }, [subjectValue]);
-
-  const postNewSubject = async () => {
-    const updatedUser = { ...user, subjects: [...subjectOptions, newSubject] };
-    setUser(updatedUser); 
-
-    try {
-      await fetch("/api/users", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUser),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Helper function to load and set the dictionary
+  const loadDictionary = async () => {
+    const dictionaryData = await getDictionary(lang); // Assuming getDictionary is an asynchronous function
+    setDictionary(dictionaryData.addStatsPage);
+  };
 
+  useEffect(() => {
+    // Load the dictionary when the component mounts or lang changes
+    loadDictionary();
+  }, [lang]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formattedSubject = newSubject
-    .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase()); // Format to Capitalized
-
-
     setNewStat({
       ...newStat,
       type: typeOptions[typeValue - 1],
-      subject:
-        subjectOptions[subjectValue - 1] === "Other"
-          ? formattedSubject
-          : subjectOptions[subjectValue - 1],
+      subject: subjectOptions[subjectValue - 1],
     });
 
     let errs = validate();
-
+    console.log(newStat);
     if (Object.keys(errs).length) return setErrors(errs);
     setIsSubmitting(true);
 
     await createStat();
 
-    if (subjectOptions[subjectValue - 1] === "Other") {
-      await postNewSubject();
-    }
-
-    router.push("/stats");
+    router.push(`/${lang}/stats`);
   };
 
   const handleChange = (e) => {
@@ -141,19 +101,33 @@ export default () => {
         },
         body: JSON.stringify(newStat),
       });
-      router.push("/stats");
+      router.push(`/${lang}/stats`);
       router.refresh();
     } catch (error) {
       console.error(error);
     }
   };
 
+  if (status === "loading") {
+    // Session is still loading, do nothing or show a loading indicator
+    return <Spinner />;
+  }
+
+  // Wait until dictionary is loaded before rendering content
+  if (!dictionary) {
+    return <Spinner />; // You can replace this with a loading indicator or other UI
+  }
+
+  if (!session) {
+    return <SignInRedirect lang={lang} />;
+  }
+
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto text-white">
       <div className="flex items-center px-4 py-8">
         <div className="relative w-full max-w-lg p-4 mx-auto bg-primary-light rounded-md shadow-lg">
           <div className="flex justify-end">
-            <Link href={"/stats"}>
+            <Link href={`/${lang}/stats`}>
               <button className="p-2 text-white rounded-md hover:bg-gray-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -171,11 +145,14 @@ export default () => {
             </Link>
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-left">
-            <h4 className="text-lg font-medium text-white">Add</h4>
+            <h4 className="text-lg font-medium text-white">
+              {dictionary.pageTitle}
+            </h4>
             <form onSubmit={handleSubmit}>
-              <label className="text-[15px] text-white">Select Type</label>
+              <label className="text-[15px] text-white">
+                {dictionary.selectTypeLabel}
+              </label>
 
-              {/* Tremor Library for dropdown modified a little */}
               <div className="max-w-sm mx-auto space-y-6">
                 <SearchSelect value={typeValue} onValueChange={setTypeValue}>
                   {typeOptions.map((label, index) => (
@@ -186,9 +163,10 @@ export default () => {
                 </SearchSelect>
               </div>
 
-              <label className="text-[15px] text-white">Select Subject</label>
+              <label className="text-[15px] text-white">
+                {dictionary.selectSubjectLabel}
+              </label>
 
-              {/* Tremor Library for dropdown modified a little */}
               <div className="max-w-sm mx-auto space-y-6">
                 <SearchSelect
                   value={subjectValue}
@@ -202,19 +180,9 @@ export default () => {
                 </SearchSelect>
               </div>
 
-              {showTextInput && (
-                <div className="max-w-sm mx-auto space-y-6 mt-5 mb-5">
-                  <TextInput
-                    name="newSubject"
-                    placeholder="Enter New Subject"
-                    // value={subjectOptions[subjectValue - 1]}
-                    value={newSubject}
-                    onChange={(e) => {setNewSubject(e.target.value)}}
-                  />
-                </div>
-              )}
-
-              <label className="text-[15px] text-white">Result</label>
+              <label className="text-[15px] text-white">
+                {dictionary.resultLabel}
+              </label>
               <div className="relative">
                 <div className="flex flex-row">
                   <input
@@ -224,7 +192,7 @@ export default () => {
                     onChange={handleChange}
                     className="w-full pl-12 pr-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
-                  <p className="mr-2 font-extrabold ml-2">/</p>
+                  <p>/</p>
                   <input
                     type="number"
                     name="outOf"
@@ -238,7 +206,7 @@ export default () => {
                 type="submit"
                 className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
               >
-                {isSubmitting ? "Adding Result" : "Add"}
+                {isSubmitting ? dictionary.submitButton : dictionary.addButton}
               </button>
             </form>
           </div>

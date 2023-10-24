@@ -8,7 +8,7 @@ import { useMemo } from "react";
 const dataFormatter = (number) =>
   `${Intl.NumberFormat("us").format(number).toString()}%`;
 
-const Line = ({ stats, data, dictionary }) => {
+const Line = ({ stats, data, dictionary, typeOptions }) => {
   const [selectedSubject, setSelectedSubject] = useState("Amharic");
 
   const handleSubjectChange = (newSubject) => {
@@ -19,25 +19,12 @@ const Line = ({ stats, data, dictionary }) => {
     return stats
       .filter((item) => item.subject === selectedSubject)
       .map((item) => {
-        const date = new Date(item.createdAt);
+        const date = new Date(item.date);
         const isValidDate = !isNaN(date);
         
 
         // Define an array of month names
-        const monthNames = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ];
+        const monthNames = dictionary.monthNames
 
         // Format the date as "Month Day" (e.g., "Mar 24")
         const formattedDate = isValidDate
@@ -46,8 +33,8 @@ const Line = ({ stats, data, dictionary }) => {
 
         return {
           date: formattedDate,
-          Exam: item.type === "Exam" ? (item.score / item.outOf) * 100 : null,
-          Assignment: item.type === "Assignment" ? item.score : null,
+          Exam: (item.type === "Exam" ? (item.score / item.outOf) * 100 : null),
+          Assignment: (item.type === "Assignment" ? (item.score / item.outOf) * 100  : null),
         };
       });
   },  [stats, selectedSubject]);
@@ -71,6 +58,7 @@ const Line = ({ stats, data, dictionary }) => {
             colors={["emerald", "gray"]}
             valueFormatter={dataFormatter}
             yAxisWidth={40}
+            connectNulls={true}
           />
         </Card>
       </div>

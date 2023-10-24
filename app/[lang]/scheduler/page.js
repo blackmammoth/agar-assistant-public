@@ -64,7 +64,7 @@ const page = ({ params: { lang } }) => {
   return (
     <>
       <h1 className="text-2xl text-primary-dark dark:text-zinc-200 font-secondary font-bold sm:text-2xl mb-5">
-        {dictionary.schedulePageTitle}
+        {dictionary.schedulePageTitle} <span className="text-xs font-normal text-slate-600">Scheduler is currently supported only in English. Upcoming update will support other calendars as well.</span>
       </h1>
       <SchedulerComponent scheduleData={data} />
     </>

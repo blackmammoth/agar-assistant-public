@@ -1,200 +1,152 @@
 {
-    "Navbar": {
-      "navbar": {
-        "menuButtonAriaLabel": "Open the menu",
-        "languageDropdownPlaceholder": "Select Language",
-        "signOut": "Sign Out",
-        "signUp": "Sign Up"
+  "navbar": {
+    "menuButtonAriaLabel": "Kutaa bahumsaa",
+    "languageDropdownPlaceholder": "Afaan filadhaa",
+    "signOut": "Cufii bahi",
+    "signUp": "Galmaa'i/gali",
+    "stats": "Bu'aa/firii",
+    "tasks": "Haftee hojmaataa",
+    "scheduler": "Sagantaa",
+    "contactUs": "Nu quunnamaa"
+  },
+  "footer": {
+    "stats": "Firii",
+    "tasks": "Hojmaata haftee",
+    "scheduler": "Sagantaa",
+    "contactUs": "Nu quunnamaa",
+    "privacyPolicy": "Pooliisii piraayveesii",
+    "copyright": "© 2023 Agar assistant. All rights reserved."
+  },
+  "hero": {
+    "title": "አጋር Gargaaraa",
+    "subtitle": "Imala barnootaa keessan gargaaraa keessan waliin itti fufaa",
+    "getStartedButton": "Galmaa'uuf tuqaa"
+  },
+  "features": {
+    "sectionTitle": "Gargaarsatti makamuudhaan faayidaalee kanaa gadii argadhaa",
+    "sectionDescription": "Liinkiin kun barattoonni bu'aa/firii isaanii akka hordofanii fi hojii isaanii yeroo barbaadametti akka hojjetaniif gargaara",
+    "items": [
+      {
+        "title": "Hordoffii qabxii",
+        "desc": "Bu'aa qormaata keessanii rakkina tokko malee hordofaa. Bakkeewwan fooyya'iinsa qabdus adda baasuudhaan ga'umsa barnootaa keessanii fooyyessaa."
       },
-      "navigation": [
-        {
-          "id": 2,
-          "name": "Stats",
-          "href": "/stats"
-        },
-        {
-          "id": 3,
-          "name": "Tasks",
-          "href": "/tasks"
-        },
-        {
-          "id": 4,
-          "name": "Scheduler",
-          "href": "/scheduler"
-        },
-        {
-          "id": 5,
-          "name": "Contact",
-          "href": "/contact-us"
-        }
-      ]
-    },
-    "Footer": {
-      "footer": {
-        "navigation": [
-          {
-            "id": 2,
-            "name": "Stats",
-            "href": "/stats"
-          },
-          {
-            "id": 3,
-            "name": "Tasks",
-            "href": "/tasks"
-          },
-          {
-            "id": 4,
-            "name": "Scheduler",
-            "href": "/scheduler"
-          },
-          {
-            "id": 5,
-            "name": "Contact",
-            "href": "/contact-us"
-          },
-          {
-            "id": 6,
-            "name": "Privacy Policy",
-            "href": "/other/privacy-policy"
-          }
-        ],
-        "copyright": "© 2023 Agar Assistant. All rights reserved."
+      {
+        "title": "Yaadannoo dalgaawwaan /hojii/haafani",
+        "desc": "Tarree hojiiwwan hojjechuu qabdu uumi, hojii kee dursa kenni. Ramaddii, pirojektoota fi yeroo qo'annoo kee gahumsaan yeroo kenni."
+      },
+      {
+        "title": "Laakkoftuu guyyaa",
+        "desc": "Sagantaa mana barumsaa keessanii kalaandarii appii keenyaatiin haaromsaa. Guyyoota barbaachisoo kanneen akka guyyoota qormaataa, guyyaa xumuraa pirojektii, fi sagantaa daree galmeessi."
       }
-    },
-    "HERO": {
-      "hero": {
-        "title": "Agar Assistant",
-        "subtitle": "Empower Your Academic Journey with Agar Student Assistant",
-        "getStartedButton": "Get started"
-      }
-    },
-    "Features": {
-      "features": {
-        "sectionTitle": "Join Agar Assistant and get access to all features",
-        "sectionDescription": "Our web app provides a comprehensive solution for students by seamlessly integrating score tracking and task management features. With our app, students can easily stay organized and focused, ensuring they stay on top of their academic progress.",
-        "items": [
-          {
-            "title": "Score Tracking",
-            "desc": "Effortlessly keep track of your test scores and grades for various subjects. This feature allows you to visualize your progress over time, identify areas for improvement, and set goals to boost your academic performance."
-          },
-          {
-            "title": "Task Management",
-            "desc": "Streamline your academic workflow with our intuitive task management system. Create to-do lists, set due dates, and prioritize tasks, helping you effectively manage assignments, projects, and study sessions."
-          },
-          {
-            "title": "Calendar Integration",
-            "desc": "Sync your academic schedule with our app's calendar feature. Save important dates, such as exam dates, project deadlines, and class schedules, ensuring you never miss a commitment and allowing you to plan your tasks effectively."
-          }
-        ]
-      }
-    },
-    "Sign In Page": {
-      "signIn": {
-        "title": "Sign In",
-        "loginWithGoogle": "Login With Your Google Account",
-        "continueWithGoogle": "Continue with Google"
-      }
-    },
-    "Tasks Home Page": {
-      "tasksPage": {
-        "title": "Tasks",
-        "addTaskButton": "Add Task",
-        "pastDueTasks": "Past Due Tasks",
-        "today": "Today",
-        "noTasksToday": "No tasks available for today.",
-        "tomorrow": "Tomorrow",
-        "noTasksTomorrow": "No tasks available for tomorrow.",
-        "longDueTasks": "Long Due Tasks",
-        "noLongDueTasks": "No long-due tasks available.",
-        "categoryPrefix": "In",
-        "categorySuffix": "days"
-      }
-    },
-    "New Tasks Page": {
-      "newTaskPage": {
-        "createTaskTitle": "Create Task",
-        "updateTaskTitle": "Update Task",
-        "deleteButton": "Delete",
-        "taskNamePlaceholder": "What's the task?",
-        "taskCompletedLabel": "Task Completed",
-        "dueDatePlaceholder": "Enter Due Date",
-        "saveButton": "Save",
-        "updatingButton": "Updating",
-        "savingButton": "Saving"
-      }
-    },
-    "Stats Page": {
-      "statsPage": {
-        "pageTitle": "Your Stats",
-        "chartTitle": "Exam Scores",
-        "assignmentTitle": "Assignment Results",
-        "addButton": "Add Scores"
-      }
-    },
-    "New STATS page": {
-      "addStatsPage": {
-        "pageTitle": "Add",
-        "selectTypeLabel": "Select Type",
-        "selectSubjectLabel": "Select Subject",
-        "enterNewSubjectLabel": "Enter New Subject",
-        "resultLabel": "Result",
-        "addButton": "Add",
-        "submitButton": "Adding Result"
-      }
-    },
-    "Chart Component": {
-      "lineComponent": {
-        "dropdownLabel": "Select Subject",
-        "title": "Your Scores",
-        "monthNames": [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-        "dayNames": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ]
-      }
-    },
-    "Card Component": {
-      "card": {
-        "selectSubjects": "Select Subjects...",
-        "noStatsAvailable": "No Stats Available",
-        "subject": "Subject",
-        "result": "Result",
-        "date": "Date",
-        "prev": "&larr; Prev",
-        "next": "Next &rarr;",
-        "showing": "Showing",
-        "of": "of"
-      }
-    },
-    "Schedule Page": {
-      "schedulePageTitle": "Your Schedule"
-    },
-    "Contact Us Page": {
-      "pageTitle": "Contact Page",
-      "mainHeading": "Send us your thoughts!",
-      "paragraph": "We’re here to help and answer any question you might have. We look forward to hearing from you! Please fill out the form or use the contact information below.",
-      "fullNameLabel": "Full name",
-      "emailLabel": "Email",
-      "messageLabel": "Message",
-      "submitButton": "Submit"
-    }
+    ]
+  },
+  "tasksPage": {
+    "title": "Hojiiwwaan/dalagawwaan",
+    "addTaskButton": "Hojii/dalagaa haara",
+    "pastDueTasks": "Hojii/dalagaa duraa",
+    "today": "Hojii/dalagaa har'a",
+    "noTasksToday": "Har'af hojii/dalaga tokko hinqabdan",
+    "tomorrow": "Dalagaa/hojii borii",
+    "noTasksTomorrow": "Boriif hojii/dalagaa hinqabdan",
+    "longDueTasks": "Fulduraaf hojii/dalagaa qabdan",
+    "noLongDueTasks": "Fulduraaf hojii/dalagaa hinqabdan",
+    "categoryPrefix":"Kan",
+    "categorySuffix": "Guyyaa keessati"
+  },
+  "newTaskPage": {
+    "createTaskTitle": "Hojii/dalagaa keessan galchaa",
+    "updateTaskTitle": "Hojii/dalagaa keessan jijjiraa",
+    "deleteButton": "Hojii/dalagaa keessan balleessaa",
+    "taskNamePlaceholder": "Hojii/dalagaa keessan maalidhaa",
+    "taskCompletedLabel": "Hojii/dalagaa keessan raawwaateraa/dhumeera",
+    "dueDatePlaceholder": "Guyyaa hojii keessaan gadhiifamuu ka'a/himaa",
+    "saveButton": "Hojii/dalagaa keessaan galchaa",
+    "updatingButton": "Fooyyesuurra/jijjiraama irraa jira",
+    "savingButton": "Galchuuf irraa/fee'uf"
+  },
+  "statsPage": {
+    "pageTitle": "Qabxii kee",
+    "chartTitle": "Bu'aa qormaataa",
+    "assignmentTitle": "Bu'aa barruu kanaa",
+    "addButton": "Bu'aa haaraa galchi"
+  },
+  "addStatsPage": {
+    "pageTitle": "Bu'aa galchi",
+    "selectTypeLabel": "Akaakuu filadhu",
+    "selectSubjectLabel": "Gosa barnootaa filadhu",
+    "enterNewSubjectLabel": "Mata duree haaraa galchi",
+    "resultLabel": "Bu'aa",
+    "addButton": "Bu'aa galchi",
+    "submitButton": "Bu'aa galchuu..."
+  },
+  "lineComponent": {
+    "dropdownLabel": "Gosa barnootaa filadhu",
+    "title": "Qabxii kee",
+    "monthNames": [
+      "Ammajjii",
+      "Gurraandhala",
+      "Bitootessa",
+      "Ebla",
+      "Caamsaa",
+      "Waxabajjii",
+      "Adoolessa",
+      "Hagayyaa",
+      "Fulbaana",
+      "Onkololeessa",
+      "Sadaasa",
+      "Muddee"
+    ],
+    "dayNames": [
+      "Wiixata",
+      "Kibxata",
+      "Roobii",
+      "Kamisa",
+      "Jimaata",
+      "Sanbata",
+      "Dilbata"
+    ]
+  },
+  "card": {
+    "selectSubjects": "Gosa barnootaa filadhu",
+    "noStatsAvailable": "Bu'aan hin jiru",
+    "subject": "Gosa barnootaa",
+    "result": "Bu'aa",
+    "date": "Guyyaa",
+    "prev": "Kan duraa",
+    "next": "Kan itti aanu",
+    "showing": "Agarsiisaa jira",
+    "of": "Irraa",
+    "monthNames": [
+      "Ammajjii",
+      "Gurraandhala",
+      "Bitootessa",
+      "Ebla",
+      "Caamsaa",
+      "Waxabajjii",
+      "Adoolessa",
+      "Hagayyaa",
+      "Fulbaana",
+      "Onkololeessa",
+      "Sadaasa",
+      "Muddee"
+    ]
+  },
+  "typeOptions" : ["Qormaata", "Kan biraa"],
+  "schedulePage": {
+    "schedulePageTitle": "Sagantaa keessan"
+  },
+  "contactUsPage": {
+    "location": "Addis Ababa, Itoophiyaa",
+    "pageTitle": "fuula quunnamtii",
+    "mainHeading": "Yaada keessan nuuf qoodaa!",
+    "paragraph": "Isin gargaaruu fi gaaffii yoo qabaattan deebisuuf qophiidha!",
+    "contributionHeading": "Yoo pirojektii kanaaf gumaacha gochuu barbaaddan ❤️",
+    "checkGitHubRepository": "Checkout the GitHub Repository",
+    "translationOpportunity": "Namoota marsariiticha afaanota Itoophiyaa birootti hiikuu danda'anis barbaadaa jirra.",
+    "contactInfo": "Yoo gargaaruu dandeessan email ykn bilbilaan nu qunnamaa."
+  },
+  "redirectPage": {
+    "title": "Dursa galmaa'aa",
+    "signIn": "Galmeessuu"
   }
-  
+}

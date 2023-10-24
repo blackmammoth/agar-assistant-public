@@ -192,7 +192,6 @@ const NewTask = ({params: { lang }}) => {
         <input
           type="date"
           name="dueDate"
-          lang={lang}
           placeholder={dictionary.dueDatePlaceholder}
           onChange={handleChange}
           value={newTask.dueDate}

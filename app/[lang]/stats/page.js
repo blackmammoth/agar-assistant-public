@@ -78,7 +78,7 @@ export default function page({ params: { lang } }) {
       </h1>
 
       {/* Chart Component Create - Contains a Dropdown */}
-      <Line stats={stats} key={stats._id} selectedValueObject={selectedValueObject} data={subjectOptions} dictionary={dictionary.lineComponent} />
+      <Line stats={stats} key={stats._id} selectedValueObject={selectedValueObject} data={subjectOptions} dictionary={dictionary.lineComponent} typeOtions={dictionary.typeOtions}/>
 
       {/* Add Button */}
       <div className="flex place-content-end mr-5 mt-5">
@@ -93,13 +93,13 @@ export default function page({ params: { lang } }) {
       <h2 className="text-xl text-black font-secondary dark:text-zinc-200 font-medium sm:text-xl mt-5">
         {dictionary.statsPage.chartTitle}
       </h2>
-      <Card stats={stats} key={stats._id} data={subjectOptions} filterBy={"Exam"} dictionary={dictionary.card} />
+      <Card stats={stats} key={stats._id} data={subjectOptions} filterBy={"Exam"} dictionary={dictionary.card} lang={lang}/>
 
       {/* Assignment Results--Create Card component to wrap with, Create Pagination Component */}
       <h2 className="text-xl font-secondary font-medium sm:text-xl mt-5">
         {dictionary.statsPage.assignmentTitle}
       </h2>
-      <Card stats={stats} key={stats._id} data={subjectOptions} filterBy={"Assignment"} dictionary={dictionary.card} />
+      <Card stats={stats} key={stats._id} data={subjectOptions} filterBy={"Assignment"} dictionary={dictionary.card} lang={lang}/>
     </>
   );
 }

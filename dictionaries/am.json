@@ -21,10 +21,10 @@
   "hero": {
     "title": "አጋር አጋዥ",
     "subtitle": "የትምህርት ጉዞዎን ከአጋር ጋር ይቅጥሉ",
-    "getStartedButton": "ለመመዝገብ ይንኩት"
+    "getStartedButton": "ይግቡ"
   },
   "features": {
-    "sectionTitle": "አጋርን በመቀላቀል የሚከተሉትን ጥቅሞች ያግኙ",
+    "sectionTitle": "አጋርን በመቀላቀል የሚከተሉትን ጥቅሞች ያግኙ።",
     "sectionDescription": "ይሄ መተግበሪያ ተማሪዎች ውጤታቸውን እንዲከታተሉና ስራቸውን በተገቢው ሰዐት እንዲሰሩ ያግዛል።",
 
     "items": [
@@ -54,7 +54,7 @@
     "longDueTasks": "ወደፊት ያሉ ስራዎች",
     "noLongDueTasks": "ለወደፊቱ ምንም ስራዎች የሉም።",
     "categoryPrefix": "በ",
-    "categorySuffix": "ቀን ውስጥ"
+    "categorySuffix": "ቀናት ውስጥ"
   },
 
   "newTaskPage": {
@@ -87,18 +87,18 @@
     "dropdownLabel": "የትምህርት ዐይነት ይምረጡ",
     "title": "የእርስዎ ዉጤት",
     "monthNames": [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
+      "ጥር",
+      "የካቲት",
+      "መጋቢት",
+      "ሚያዚያ",
+      "ግንቦት",
+      "ሰኔ",
+      "ሀምሌ",
+      "ነሐሴ",
+      "መስከረም",
+      "ጥቅምት",
+      "ህዳር",
+      "ታህሳስ"
     ],
     "dayNames": [
       "Monday",
@@ -116,11 +116,26 @@
     "subject": "የትምህርት ዐይነት",
     "result": "ውጤት",
     "date": "ቀን",
-    "prev": "&larr; የበፊቱን",
-    "next": "ቀጣዩን &rarr;",
+    "prev": "የበፊቱን",
+    "next": "ቀጣዩን",
     "showing": "በማሳየት ላይ",
-    "of": "of"
+    "of": "ከ",
+    "monthNames": [
+      "ጥር",
+      "የካቲት",
+      "መጋቢት",
+      "ሚያዚያ",
+      "ግንቦት",
+      "ሰኔ",
+      "ሀምሌ",
+      "ነሐሴ",
+      "መስከረም",
+      "ጥቅምት",
+      "ህዳር",
+      "ታህሳስ"
+    ]
   },
+  "typeOptions" : ["ፈተና", "አሳይመንት"],
   "schedulePage": {
     "schedulePageTitle": "የእርስዎ መርሐግብር"
   },

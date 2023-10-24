@@ -32,39 +32,52 @@ export default function SchedulerComponent({ scheduleData }) {
   const createEvent = async () => {
     try {
       await fetch("/api/scheduler", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newEvent),
       });
-        // router.refresh();
+      // router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateEvent = async (id) => {
+    try {
+      await fetch("/api/scheduler", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...newEvent, _id: id}),
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   const deleteEvent = async (id) => {
-      try {
-        await fetch('/api/scheduler', {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({_id: id}),
-        });
-        // router.refresh();
-      } catch (error) {
-        console.error(error);
-      }
+    // console.log("Inside Delete Event");
+    // console.log(id);
+    try {
+      await fetch("/api/scheduler", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id: id }),
+      });
+      // router.refresh();
+    } catch (error) {
+      console.error(error);
     }
-
+  };
 
   const onResizeStart = (args) => {
     args.scroll = { enable: false };
   };
-
-
 
   const onActionComplete = (args) => {
     if (args.requestType === "toolBarItemRendered") {
@@ -78,7 +91,7 @@ export default function SchedulerComponent({ scheduleData }) {
     }
     if (args.requestType === "eventCreated") {
       // This block is execute after an appointment create
-      console.log("Event Created");
+      // console.log("Event Created");
       const addedEvent = args.addedRecords[0];
 
       newEvent = {
@@ -94,8 +107,9 @@ export default function SchedulerComponent({ scheduleData }) {
     }
     if (args.requestType === "eventChanged") {
       // This block is execute after an appointment change
-      console.log("Event Updated");
+      // console.log("Event Updated");
       const updatedEvent = args.changedRecords[0];
+      // console.log(updateEvent)
 
       newEvent = {
         ...defaultEvent,
@@ -106,23 +120,21 @@ export default function SchedulerComponent({ scheduleData }) {
         EndTime: updatedEvent.EndTime,
         IsAllDay: updatedEvent.IsAllDay,
       };
-
-      createEvent();
+      updateEvent(updatedEvent._id);
     }
     if (args.requestType === "eventRemoved") {
       // This block is execute after an appointment remove
-      console.log("Event Deleted");
-    
-      const deletedEvent = args.deletedRecords[0];
-        
-      deleteEvent(deletedEvent._id)
+      // console.log("Event Deleted");
 
+      const deletedEvent = args.deletedRecords[0];
+
+      deleteEvent(deletedEvent._id);
     }
   };
 
   return (
     <ScheduleComponent
-        width='100%'
+      width="100%"
       height="500px"
       eventSettings={eventSettings}
       resizeStart={onResizeStart}

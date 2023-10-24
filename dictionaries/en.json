@@ -7,7 +7,7 @@
     "stats": "Stats",
     "tasks": "Tasks",
     "scheduler": "Scheduler",
-    "contactUs": "Contact"
+    "contactUs": "Contact Page"
   },
 
   "footer": {
@@ -19,7 +19,7 @@
     "copyright": "© 2023 Agar Assistant. All rights reserved."
   },
   "hero": {
-    "title": "Agar Assistant",
+    "title": "አጋር Assistant",
     "subtitle": "Empower Your Academic Journey with Agar Student Assistant",
     "getStartedButton": "Get started"
   },
@@ -119,8 +119,24 @@
       "prev": "Prev",
       "next": "Next",
       "showing": "Showing",
-      "of": "of"
+      "of": "of",
+      "monthNames": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ]
   },
+  "typeOptions" : ["Exam", "Assignment"],
+
   "schedulePage": {
     "schedulePageTitle": "Your Schedule"
   },

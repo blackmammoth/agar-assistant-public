@@ -44,7 +44,7 @@ const page = ({params: { lang }}) => {
           />
         </svg>
       ),
-      contact: "NamisTechnologies@gmail.com",
+      contact: "Hdessie250@gmail.com",
     },
     {
       icon: (
@@ -123,7 +123,7 @@ const page = ({params: { lang }}) => {
             {dictionary.contributionHeading}
           </p>
 
-          <NavLink className="text-white bg-violet-400 mb-10" href={"./"}>
+          <NavLink className="text-white bg-violet-400 mb-10" href={"https://github.com/blackmammoth/agar-assistant-public"}>
             {dictionary.checkGitHubRepository}
           </NavLink>
           <p className="mt-5 font-semibold">

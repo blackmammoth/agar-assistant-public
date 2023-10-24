@@ -66,7 +66,7 @@ function categorizeTasksByDueDate(tasks) {
   const sortedFutureTasks = Object.keys(futureTasks)
     .sort((a, b) => parseInt(a) - parseInt(b))
     .map((key) => ({
-      category: `In ${parseInt(key)} days`,
+      category: `${parseInt(key)}`,
       tasks: futureTasks[key],
     }));
   // Sort long-due tasks by their due date
@@ -99,8 +99,6 @@ export default function page({params: { lang }}) {
   const [categorizedTasks, setCategorizedTasks] = useState(null); // Initialize as null
   const [dictionary, setDictionary] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  console.log(session)
 
   const fetchTasks = async () => {
     try {

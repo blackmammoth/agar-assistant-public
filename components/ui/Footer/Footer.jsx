@@ -38,12 +38,6 @@ const Footer = ({ lang, dictionary }) => {
                 </li>
               );
             })}
-            <li
-              key={navigation[4].id}
-              className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-sky-500 duration-150 md:font-medium"
-            >
-              <Link href={navigation[4].href}>{navigation[4].name}</Link>
-            </li>
           </ul>
           <p className="mt-6 sm:mt-0">
             {dictionary?.copyright}

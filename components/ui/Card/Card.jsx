@@ -10,18 +10,47 @@ import {
 } from "@tremor/react";
 import { useState, useEffect } from "react";
 import { useMemo } from "react";
+import TrashCan from "../Icons/TrashBin";
+import { useRouter } from "next/navigation";
 
+export default ({ stats, data, filterBy, dictionary }) => {  
+  function formatDate(dateString) {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const monthNames = dictionary?.monthNames;
 
-export default ({ stats, data, filterBy, dictionary }) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString(undefined, options);
 
+    const monthIndex = date.getMonth();
+    const monthName = monthNames[monthIndex];
 
+    return formattedDate.replace(
+      date.toLocaleDateString(undefined, { month: "long" }),
+      monthName
+    );
+  }
+
+  const handleDelete = async (itemId) => {
+    if (window.confirm("Are you sure you want to delete this result?")) {
+      try {
+        const res = await fetch(`/api/stats/${itemId}`, {
+          method: "DELETE",
+        });
+        
+        window.location.reload(false)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedSubject, setSelectedSubject] = useState([]);
 
   const defaultPageSize = 10;
 
   let filteredByType = stats.filter((item) => item.type === filterBy);
-
 
   let filteredData;
 
@@ -40,7 +69,6 @@ export default ({ stats, data, filterBy, dictionary }) => {
     filteredData = useMemo(() => {
       return filteredByType.filter((item) => isSubjectSelected(item.subject));
     }, [filteredByType, selectedSubject]);
-
 
     if (filteredData.length === 0) {
       return (
@@ -62,7 +90,12 @@ export default ({ stats, data, filterBy, dictionary }) => {
               {item.score} / {item.outOf}
             </TableHeaderCell>
             <TableHeaderCell className="text-left dark:text-zinc-200">
-              {item.date}
+              {formatDate(item.date)}
+            </TableHeaderCell>
+            <TableHeaderCell className="text-left dark:text-zinc-200">
+              <button onClick={() => handleDelete(item._id)}>
+                <TrashCan className="text-red-600 font-semibold" />
+              </button>
             </TableHeaderCell>
           </TableRow>
         );
@@ -92,7 +125,7 @@ export default ({ stats, data, filterBy, dictionary }) => {
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(currentPage - 1)}
           >
-            &larr; {dictionary?.prev}  
+            &larr; {dictionary?.prev}
           </button>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r focus:outline-none"
@@ -138,6 +171,7 @@ export default ({ stats, data, filterBy, dictionary }) => {
                 <TableHeaderCell className="text-left text-white dark:text-zinc-200">
                   {dictionary?.date}
                 </TableHeaderCell>
+                <TableHeaderCell className="text-left text-white dark:text-zinc-200"></TableHeaderCell>
               </TableRow>
             </TableHead>
             <tbody className="text-gray-600 dark:text-zinc-200 divide-y">

@@ -32,16 +32,18 @@ export async function GET() {
   }
 }
 
-export async function POST(request) {
+export async function PUT(request) {
   await connectToDB();
+  
   try {
     const body = await request.json();
+    // console.log(body._id);
     const eventUpdated = await Scheduler.findByIdAndUpdate(body._id, body, {
       new: true,
     });
 
     if (eventUpdated) {
-      console.log("Event Updated Successfully");
+      // console.log("Event Updated Successfully");
     }
 
     // If Event Is Not Found Create a New Event
@@ -60,7 +62,7 @@ export async function POST(request) {
 }
 
 export async function DELETE(request) {
-  await connectToDB();
+  await connectToDB();  
 
   try {
     const body = await request.json();

@@ -4,13 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 //SearchSelect
-import { SearchSelect, SearchSelectItem } from "@tremor/react";
+import { SearchSelect, SearchSelectItem, TextInput } from "@tremor/react";
 import { useSession } from "next-auth/react";
 import { getDictionary } from "@/get-dictionary";
 import Spinner from "@/components/ui/Spinner/Spinner";
-
-/// BUGS
-// 1. handleSubmit needs to be clicked twoce
 
 import SignInRedirect from "@/components/ui/SignInRedirect/SignInRedirect";
 
@@ -27,12 +24,64 @@ export default ({ params: { lang } }) => {
     userId: session?.user?.id,
   });
 
-  const typeOptions = ["Exam", "Assignment"];
-  const subjectOptions = ["Amharic", "English", "Physics", "Chemistry", "Math"];
+  const [user, setUser] = useState({
+    _id: session?.user?.id,
+    email: session?.user?.email,
+    subjects: [],
+  });
+
+  // const subjectOptions = ["Amharic", "English", "Physics", "Chemistry", "Math"];
+  const [subjectOptions, setSubjectOptions] = useState(
+    session?.user?.subjects || []
+  );
+
+  useEffect(() => {
+    if (session?.user?.subjects) {
+      setSubjectOptions(session.user.subjects);
+    }
+  }, [session]);
+
+  let typeOptions = ["Exam", "Assignment"];
   const [dictionary, setDictionary] = useState(null);
 
   const [typeValue, setTypeValue] = useState("");
   const [subjectValue, setSubjectValue] = useState("");
+
+  const [showTextInput, setShowTextInput] = useState(false); // Track whether to show TextInput
+  const [newSubject, setNewSubject] = useState("");
+
+  useEffect(() => {
+    if (
+      subjectOptions[subjectValue - 1] === "Other" ||
+      subjectOptions[subjectValue - 1] === "ሌላ" ||
+      subjectOptions[subjectValue - 1] === "Kan biraa"
+    ) {
+      setShowTextInput(true);
+    } else {
+      setShowTextInput(false);
+    }
+  }, [subjectValue]);
+
+  const postNewSubject = async (subjectToBeBosted) => {
+    const updatedUser = {
+      ...user,
+      subjects: [...subjectOptions, subjectToBeBosted],
+    };
+    setUser(updatedUser);
+
+    try {
+      await fetch("/api/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const router = useRouter();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,6 +90,7 @@ export default ({ params: { lang } }) => {
   // Helper function to load and set the dictionary
   const loadDictionary = async () => {
     const dictionaryData = await getDictionary(lang); // Assuming getDictionary is an asynchronous function
+    typeOptions = dictionaryData.typeOptions;
     setDictionary(dictionaryData.addStatsPage);
   };
 
@@ -49,26 +99,51 @@ export default ({ params: { lang } }) => {
     loadDictionary();
   }, [lang]);
 
+  function formatSubject(subjectToBeFormatted) {
+    return subjectToBeFormatted
+      .toLowerCase()
+      .replace(/\b\w/g, (c) => c.toUpperCase()); // Format to Capitalized
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setNewStat({
-      ...newStat,
+
+    setNewStat((prevNewStat) => ({
+      ...prevNewStat,
       type: typeOptions[typeValue - 1],
-      subject: subjectOptions[subjectValue - 1],
-    });
+      subject:
+        subjectOptions[subjectValue - 1] === "Other" ||
+        subjectOptions[subjectValue - 1] === "ሌላ" ||
+        subjectOptions[subjectValue - 1] === "Kan biraa"
+          ? newSubject
+          : subjectOptions[subjectValue - 1],
+    }));
 
     let errs = validate();
-    console.log(newStat);
+
     if (Object.keys(errs).length) return setErrors(errs);
     setIsSubmitting(true);
 
     await createStat();
 
+    if (
+      subjectOptions[subjectValue - 1] === "Other" ||
+      subjectOptions[subjectValue - 1] === "ሌላ" ||
+      subjectOptions[subjectValue - 1] === "Kan biraa"
+    ) {
+      await postNewSubject(formatSubject(newSubject));
+    }
+
     router.push(`/${lang}/stats`);
   };
 
   const handleChange = (e) => {
-    setNewStat({ ...newStat, [e.target.name]: parseInt(e.target.value, 10) });
+    const { name, value } = e.target;
+    setNewStat((prevStat) => ({
+      ...prevStat,
+      [name]: value,
+    }));
+    // setNewStat({ ...newStat, [e.target.name]: parseInt(e.target.value, 10) });
   };
 
   const validate = () => {
@@ -123,7 +198,7 @@ export default ({ params: { lang } }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-10 overflow-y-auto text-white">
+    <div className="static inset-0 z-10 overflow-y-auto text-white">
       <div className="flex items-center px-4 py-8">
         <div className="relative w-full max-w-lg p-4 mx-auto bg-primary-light rounded-md shadow-lg">
           <div className="flex justify-end">
@@ -154,7 +229,18 @@ export default ({ params: { lang } }) => {
               </label>
 
               <div className="max-w-sm mx-auto space-y-6">
-                <SearchSelect value={typeValue} onValueChange={setTypeValue}>
+                <SearchSelect
+                  value={typeValue}
+                  onValueChange={(newValue) => {
+                    setTypeValue(newValue);
+
+                    // Use a functional update to ensure you work with the latest state
+                    setNewStat((prevNewStat) => ({
+                      ...prevNewStat,
+                      type: typeOptions[newValue - 1],
+                    }));
+                  }}
+                >
                   {typeOptions.map((label, index) => (
                     <SearchSelectItem key={index} value={index + 1}>
                       {label}
@@ -170,7 +256,13 @@ export default ({ params: { lang } }) => {
               <div className="max-w-sm mx-auto space-y-6">
                 <SearchSelect
                   value={subjectValue}
-                  onValueChange={setSubjectValue}
+                  onValueChange={(newValue) => {
+                    setSubjectValue(newValue);
+                    setNewStat((prevNewStat) => ({
+                      ...prevNewStat,
+                      subject: subjectOptions[newValue - 1],
+                    }));
+                  }}
                 >
                   {subjectOptions.map((label, index) => (
                     <SearchSelectItem key={index} value={index + 1}>
@@ -179,6 +271,24 @@ export default ({ params: { lang } }) => {
                   ))}
                 </SearchSelect>
               </div>
+
+              {showTextInput && (
+                <div className="max-w-sm mx-auto space-y-6 mt-5 mb-5">
+                  <TextInput
+                    name="subject"
+                    placeholder="Enter New Subject"
+                    // value={subjectOptions[subjectValue - 1]}
+                    value={newSubject}
+                    onChange={(e) => {
+                      setNewSubject(e.target.value);
+                      setNewStat((prevNewStat) => ({
+                        ...prevNewStat,
+                        subject: formatSubject(e.target.value),
+                      }));
+                    }}
+                  />
+                </div>
+              )}
 
               <label className="text-[15px] text-white">
                 {dictionary.resultLabel}
@@ -190,18 +300,28 @@ export default ({ params: { lang } }) => {
                     placeholder="--"
                     name="score"
                     onChange={handleChange}
-                    className="w-full pl-12 pr-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                    className="w-14 h-9 pl-3 pr-2 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
-                  <p>/</p>
+                  <p className="ml-3 font-extrabold mr-3 text-3xl">/</p>
                   <input
                     type="number"
                     name="outOf"
                     placeholder="--"
                     onChange={handleChange}
-                    className="w-full pl-12 pr-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                    className="w-14 h-9 pl-3 pr-3 py-2 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
                 </div>
               </div>
+              <input
+                type="date"
+                name="date"
+                placeholder={dictionary.dueDatePlaceholder}
+                onChange={handleChange}
+                value={newStat.date}
+                className="border-2 w-full p-4 rounded-lg my-4 text-black"
+                required
+              />
+
               <button
                 type="submit"
                 className="block w-full mt-3 py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 rounded-lg ring-offset-2 ring-indigo-600 focus:ring-2"
